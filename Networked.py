@@ -350,32 +350,41 @@ def action():
     elif answer['app_choice'] == 'Change DNS' and answer['choose_dns_first'] != 'CANCEL' :
         wait = input("PRESS ENTER TO CONTINUE.")
         if answer['choose_dns_second'] != 'CANCEL' :
-            wait = input("PRESS ENTER TO CONTINUE.")
-            # l'outil pour l'interface CLI renvoie une chaine de caractère : le nom
-            # sauf que avec seulement le nom, on ne peut savoir quels couples d IP sélectionner
-            # on doit donc check quel est le couple qui correspond au nom renvoyé
-            dns_number = None
-            for k in range(len(DNS_list)):
-                print(answer['choose_dns_second'])
-                print(DNS_list[k][0])
-                print('\n')
-                wait = input("PRESS ENTER TO CONTINUE.")
-                if answer['choose_dns_second'] == DNS_list[k][0] :
-                    dns_number = k
-            print(dns_number)
-            wait = input("PRESS ENTER TO CONTINUE.")
+            if answer['choose_dns_second'] != 'CUSTOM' :
+                # wait = input("PRESS ENTER TO CONTINUE.")
+                # l'outil pour l'interface CLI renvoie une chaine de caractère : le nom
+                # sauf que avec seulement le nom, on ne peut savoir quels couples d IP sélectionner
+                # on doit donc check quel est le couple qui correspond au nom renvoyé
+                dns_number = None
+                for k in range(len(DNS_list)):
+                    print(answer['choose_dns_second'])
+                    print(DNS_list[k][0])
+                    print('\n')
+                    # wait = input("PRESS ENTER TO CONTINUE.")
+                    if answer['choose_dns_second'] == DNS_list[k][0] :
+                        dns_number = k
+                print(dns_number)
+                # wait = input("PRESS ENTER TO CONTINUE.")
 
-            carte = answer['choose_dns_first']
+                carte = answer['choose_dns_first']
 
-            print(carte)
-            wait = input("PRESS ENTER TO CONTINUE.")
+                # print(carte)
+                # wait = input("PRESS ENTER TO CONTINUE.")
 
-            DNS_IP_TUPLE_V4 = DNS_list[dns_number][1]
+                DNS_IP_TUPLE_V4 = DNS_list[dns_number][1]
 
-            DNS_IP_TUPLE_V6 = DNS_list[dns_number][2]
-            print(DNS_IP_TUPLE_V4)
+                DNS_IP_TUPLE_V6 = DNS_list[dns_number][2]
 
-            wait = input("PRESS ENTER TO CONTINUE.")
+            elif answer['choose_dns_second'] == 'CUSTOM' :
+                SettingsTuple = add_Custom_DNS()
+
+                DNS_IP_TUPLE_V4 = SettingsTuple[0]
+
+                DNS_IP_TUPLE_V6 = SettingsTuple[1]
+
+            # print(DNS_IP_TUPLE_V4)
+
+            # wait = input("PRESS ENTER TO CONTINUE.")
             Change_DNS( 'ipv4', carte, DNS_IP_TUPLE_V4)
             Change_DNS( 'ipv6', carte, DNS_IP_TUPLE_V6)
             return True
@@ -537,7 +546,31 @@ def Change_DNS( standard , network_card, DNS_IP_TUPLE ):
 
 
 
+def add_Custom_DNS():
+    print('please give it a name : ')
+    name = input('name : ')
+    print(Fore.YELLOW + 'IPv4 DNS server information' + Fore.WHITE +' : ')
+    ipv4_primary = input('Primary : ')
+    ipv4_secondary = input('Secondary : ')
+    print(Fore.YELLOW + 'IPv6 DNS server information' + Fore.WHITE +' : ')
+    ipv6_primary = input('Primary : ')
+    ipv6_secondary = input('Secondary : ')
 
+    if ( ipv4_primary.isalpha() or ipv4_primary.isalnum() ):
+        pass
+    else :
+        ipv4_primary = input('please ensure to type it correctly, Primary : ')
+
+
+
+
+    ipv4_tuple = (ipv4_primary, ipv4_secondary)
+    ipv6_tuple = (ipv6_primary, ipv6_secondary)
+    Tuple = (name, ipv4_tuple, ipv6_tuple)
+
+    DNS_list.append(Tuple)
+
+    return [ ipv4_tuple, ipv6_tuple ]
 
 
 
