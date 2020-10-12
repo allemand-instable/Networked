@@ -130,7 +130,7 @@ def menu():
         'type': 'list',
         'name': 'app_choice',
         'message': 'What do you want to do ?',
-        'choices': ['Reboot Network Card', 'Change Network Card', 'Choose a Network Card', 'Enable a Network Card', 'Disable a Network Card','Quit']
+        'choices': ['Reboot Network Card', 'Change Network Card', 'Choose a Network Card', 'Enable a Network Card', 'Disable a Network Card', 'Change DNS', 'Quit']
 
 
     },
@@ -202,6 +202,25 @@ def menu():
         'message': 'pick the Network Card you want to enable',
         'choices': cartes_dispo,
         'when': lambda answers: answers['app_choice'] == 'Enable a Network Card'
+    },
+
+    # Change DNS
+
+    {
+        'type' : 'list',
+        'name' : 'choose_dns_first',
+        'message' : 'Choisis la carte Réseau concernée :',
+        'choices' : cartes_dispo,
+        'when': lambda answers: answers['app_choice'] == 'Change DNS'
+    },
+
+
+    {
+        'type' : 'list',
+        'name' : 'choose_dns_second',
+        'message' : 'Choisis le DNS à appliquer : ',
+        'choices' : [ DNS_list[k][0] for k in range(len(DNS_list)) ],
+        'when' : lambda answers: answers['choose_dns_first'] != 'CANCEL'
     },
 
     # >>>> Confirms <<<<
@@ -328,7 +347,7 @@ def action():
     # CHANGE DNS SERVERS
 
 
-    elif answer['app_choice'] == 'Changer DNS' and answer['choose_dns_first'] != 'CANCEL' :
+    elif answer['app_choice'] == 'Change DNS' and answer['choose_dns_first'] != 'CANCEL' :
         wait = input("PRESS ENTER TO CONTINUE.")
         if answer['choose_dns_second'] != 'CANCEL' :
             wait = input("PRESS ENTER TO CONTINUE.")
