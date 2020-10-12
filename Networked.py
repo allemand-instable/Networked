@@ -525,9 +525,22 @@ def choisir_carte(carte_choisie):
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 """
 FONCTIONS DNS
 """
+
 
 
 def Change_DNS( standard , network_card, DNS_IP_TUPLE ):
@@ -573,6 +586,14 @@ def add_Custom_DNS():
     DNS_list.append(Tuple)
 
     return [ ipv4_tuple, ipv6_tuple ]
+
+
+
+
+
+
+
+
 
 
 
