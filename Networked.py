@@ -68,6 +68,40 @@ def ListAvailableNetworkCards():
 
 
 
+
+"""
+Liste des DNS
+"""
+
+# name, IPV4 (first, secondary), IPV6 (first, secondary)
+
+# 1.1.1.1
+# 1.1.1.1 Family - no porn
+# OPEN DNS
+# Google Public DNS
+
+DNS_list = [
+
+('1.1.1.1', ('1.1.1.1', '1.0.0.1'), ('2606:4700:4700::1111', '2606:4700:4700::1001') ),
+
+('1.1.1.1 FAMILY', ('1.1.1.3', '1.0.0.3'), ('2606:4700:4700::1113', '2606:4700:4700::1003') ),
+
+('OPEN DNS', ('208.67.222.222', '208.67.220.220'), ('2620:119:35::35', '2620:119:53::53') ),
+
+('Google Public DNS', ( '8.8.8.8' , '8.8.4.4' ), ('2001:4860:4860::8888' , '2001:4860:4860::8844' ) ),
+
+('CANCEL', None, None)
+
+
+]
+
+
+
+
+
+
+
+
 """
 MENU
 """
@@ -260,19 +294,19 @@ def action():
             relancer_carte(carte)
 
 
-    if answer['app_choice'] == 'Enable a Network Card' and answer['adapter_on'] != 'CANCEL' :
+    elif answer['app_choice'] == 'Enable a Network Card' and answer['adapter_on'] != 'CANCEL' :
         carte = answer['adapter_on']
         activer_carte(carte)
 
 
-    if answer['app_choice'] == 'Disable a Network Card' and answer['adapter_off'] != 'CANCEL' :
+    elif answer['app_choice'] == 'Disable a Network Card' and answer['adapter_off'] != 'CANCEL' :
         carte = answer['adapter_off']
         desactiver_carte(carte)
 
 
     # CHANGER LA CARTE RESEAU
 
-    if answer['app_choice'] == 'Change Network Card' :
+    elif answer['app_choice'] == 'Change Network Card' :
         if answer['change_adapter_old'] != 'CANCEL' :
             if answer['change_adapter_new'] != 'CANCEL' :
                 if answer['change_confirm'] == True :
@@ -280,18 +314,60 @@ def action():
                     nouvelle_carte = answer['change_adapter_new']
                     changer_carte(ancienne_carte, nouvelle_carte)
 
-    if answer['app_choice'] == 'Quit' and answer['quit_confirm'] == False :
+    elif answer['app_choice'] == 'Quit' and answer['quit_confirm'] == False :
         return True
 
-    if answer['app_choice'] == 'Choose a Network Card' and answer['choose_adapter'] == 'CANCEL' :
+    elif answer['app_choice'] == 'Choose a Network Card' and answer['choose_adapter'] == 'CANCEL' :
         return True
 
-    if answer['app_choice'] == 'Choose a Network Card' and answer['choose_adapter'] != 'CANCEL' :
+    elif answer['app_choice'] == 'Choose a Network Card' and answer['choose_adapter'] != 'CANCEL' :
         carte = answer["choose_adapter"]
         choisir_carte(carte)
 
 
-    if answer["app_choice"] == 'Quit' and answer["quit_confirm"] == True  :
+    # CHANGE DNS SERVERS
+
+
+    elif answer['app_choice'] == 'Changer DNS' and answer['choose_dns_first'] != 'CANCEL' :
+        wait = input("PRESS ENTER TO CONTINUE.")
+        if answer['choose_dns_second'] != 'CANCEL' :
+            wait = input("PRESS ENTER TO CONTINUE.")
+            # l'outil pour l'interface CLI renvoie une chaine de caractère : le nom
+            # sauf que avec seulement le nom, on ne peut savoir quels couples d IP sélectionner
+            # on doit donc check quel est le couple qui correspond au nom renvoyé
+            dns_number = None
+            for k in range(len(DNS_list)):
+                print(answer['choose_dns_second'])
+                print(DNS_list[k][0])
+                print('\n')
+                wait = input("PRESS ENTER TO CONTINUE.")
+                if answer['choose_dns_second'] == DNS_list[k][0] :
+                    dns_number = k
+            print(dns_number)
+            wait = input("PRESS ENTER TO CONTINUE.")
+
+            carte = answer['choose_dns_first']
+
+            print(carte)
+            wait = input("PRESS ENTER TO CONTINUE.")
+
+            DNS_IP_TUPLE_V4 = DNS_list[dns_number][1]
+
+            DNS_IP_TUPLE_V6 = DNS_list[dns_number][2]
+            print(DNS_IP_TUPLE_V4)
+
+            wait = input("PRESS ENTER TO CONTINUE.")
+            Change_DNS( 'ipv4', carte, DNS_IP_TUPLE_V4)
+            Change_DNS( 'ipv6', carte, DNS_IP_TUPLE_V6)
+            return True
+        else :
+            return True
+
+
+
+
+
+    elif answer["app_choice"] == 'Quit' and answer["quit_confirm"] == True  :
         clear()
         return False
 
@@ -414,6 +490,30 @@ def choisir_carte(carte_choisie):
             activer_carte(carte)
     return
 
+
+
+
+
+
+"""
+FONCTIONS DNS
+"""
+
+
+def Change_DNS( standard , network_card, DNS_IP_TUPLE ):
+    if (standard == 'ipv4') or (standard == 'ipv6'):
+
+        network_card_word = '\"' + network_card + '\"'
+
+        primary_dns = 'static ' + DNS_IP_TUPLE[0]
+        secondary_dns = DNS_IP_TUPLE[1]
+
+        os.system('netsh interface ' + standard + ' set dns ' + network_card_word + ' ' + primary_dns)
+        os.system('netsh interface ' + standard + ' add dns ' + network_card_word + ' ' + secondary_dns + ' Index=2')
+        os.system('ipconfig/flushdns')
+    else :
+        raise Exception('You must set a correct standard :\n \n either :\nipv4\n\nOR\n\nipv6 !')
+    return
 
 
 
