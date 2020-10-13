@@ -222,7 +222,7 @@ def menu():
         'name' : 'choose_dns_second',
         'message' : 'Choisis le DNS à appliquer : ',
         'choices' : [ DNS_list[k][0] for k in range(len(DNS_list)) ],
-        'when' : lambda answers: answers['choose_dns_first'] != 'CANCEL'
+        'when' : lambda answers: answers['app_choice'] == 'Change DNS' and answers['choose_dns_first'] != 'CANCEL'
     },
 
     # >>>> Confirms <<<<
