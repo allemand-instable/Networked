@@ -40,3 +40,7 @@ there are currently 6 tools available :
 - PyInquirer
 - pyfiglet
 
+
+## To Be Done
+
+Migrate from lists to Dictonaries for better code readability
