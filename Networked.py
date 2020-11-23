@@ -38,8 +38,6 @@ import regex
 CLI Libraries
 """
 
-from PyInquirer import style_from_dict, Token, prompt, Separator
-from PyInquirer import Validator, ValidationError
 from inquirer2 import prompt, Separator
 from prompt_toolkit.validation import Validator, ValidationError
 from pprint import pprint
