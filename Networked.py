@@ -29,7 +29,7 @@ import os
 from elevate import elevate
 
 """
-????????????
+Inquirer 2 requirement
 """
 
 import regex
@@ -40,9 +40,10 @@ CLI Libraries
 
 from PyInquirer import style_from_dict, Token, prompt, Separator
 from PyInquirer import Validator, ValidationError
+from inquirer2 import prompt, Separator
+from prompt_toolkit.validation import Validator, ValidationError
 from pprint import pprint
-
-
+from prompt_toolkit.styles import Style
 
 """
 COOL INSANE TITLE
@@ -101,23 +102,34 @@ DNS_list = [
 
 
 
-
-
-
 """
 MENU
 """
 
 
 
+
 def menu():
-    style = style_from_dict({
-        Token.QuestionMark: '#E91E63 bold',
-        Token.Selected: '#673AB7 bold',
-        Token.Instruction: '',  # default
-        Token.Answer: '#2196f3 bold',
-        Token.Question: '',
+
+    """
+    orange = '#F19066'
+    pink = '#f78fb3'
+    yellow = '#f5cd79'
+    cyan = '#63CDDA'
+    """
+
+    style = Style.from_dict({
+        'separator': '#E91E63',
+        'questionmark': '#E91E63',
+        'focus': '#2196f3',
+        'checked': '#2196f3',  # default
+        'pointer': '#ff8700',  # AWS orange
+        'instruction': '#ff8700',  # default
+        'answer': '#00ffd7',  # AWS orange
+        'question': '#2196f3',
     })
+
+
 
 
     cartes_dispo = ListAvailableNetworkCards()
@@ -257,7 +269,7 @@ def menu():
 
     ]
 
-    answers = prompt(questions, style=style)
+    answers = prompt.prompt(questions, style=style)
 
     return answers
 
