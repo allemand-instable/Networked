@@ -34,11 +34,11 @@ there are currently 6 tools available :
 
 ### dependencies
 
-- Colorama
+- [Colorama](https://github.com/tartley/colorama)
 - WMI
-- elevate
-- PyInquirer
-- pyfiglet
+- [elevate](https://github.com/barneygale/elevate)
+- [PyInquirer2](https://github.com/zeusxs/PyInquirer2)
+- [pyfiglet](https://github.com/pwaller/pyfiglet)
 
 
 ## To Be Done
