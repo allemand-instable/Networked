@@ -34,11 +34,19 @@ there are currently 6 tools available :
 
 ### dependencies
 
+
 - [Colorama](https://github.com/tartley/colorama)
+  - `pip install colorama`
 - WMI
+  - `pip install wmi`
 - [elevate](https://github.com/barneygale/elevate)
+  `pip install elevate`
 - [PyInquirer2](https://github.com/zeusxs/PyInquirer2)
+  - ``pip install inquirer2`
 - [pyfiglet](https://github.com/pwaller/pyfiglet)
+  - `pip install pyfiglet`
+- regex
+  - `pip install regex`
 
 
 ## To Be Done
