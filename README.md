@@ -40,7 +40,7 @@ there are currently 6 tools available :
 - WMI
   - `pip install wmi`
 - [elevate](https://github.com/barneygale/elevate)
-  `pip install elevate`
+  - `pip install elevate`
 - [PyInquirer2](https://github.com/zeusxs/PyInquirer2)
   - `pip install inquirer2`
 - [pyfiglet](https://github.com/pwaller/pyfiglet)
