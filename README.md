@@ -37,7 +37,7 @@ there are currently 6 tools available :
 
 - [Colorama](https://github.com/tartley/colorama)
   - `pip install colorama`
-- WMI
+- [WMI](http://timgolden.me.uk/python/wmi/index.html)
   - `pip install wmi`
 - [elevate](https://github.com/barneygale/elevate)
   - `pip install elevate`
