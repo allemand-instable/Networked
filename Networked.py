@@ -81,6 +81,8 @@ Liste des DNS
 
 DNS_list = [
 
+('Automatic (DHCP)', None, None),
+
 ('1.1.1.1', ('1.1.1.1', '1.0.0.1'), ('2606:4700:4700::1111', '2606:4700:4700::1001') ),
 
 ('1.1.1.1 FAMILY', ('1.1.1.3', '1.0.0.3'), ('2606:4700:4700::1113', '2606:4700:4700::1003') ),
@@ -362,7 +364,14 @@ def action():
     elif answer['app_choice'] == 'Change DNS' and answer['choose_dns_first'] != 'CANCEL' :
         wait = input("PRESS ENTER TO CONTINUE.")
         if answer['choose_dns_second'] != 'CANCEL' :
-            if answer['choose_dns_second'] != 'CUSTOM' :
+
+            if answer['choose_dns_second'] == 'Automatic (DHCP)' :
+
+                carte = answer['choose_dns_first']
+
+                set_to_default_DNS(carte)
+                return True
+            elif answer['choose_dns_second'] != 'CUSTOM' :
                 # wait = input("PRESS ENTER TO CONTINUE.")
                 # l'outil pour l'interface CLI renvoie une chaine de caractère : le nom
                 # sauf que avec seulement le nom, on ne peut savoir quels couples d IP sélectionner
@@ -551,7 +560,7 @@ def choisir_carte(carte_choisie):
 FONCTIONS DNS
 """
 
-
+# netsh interface ip set dnsservers name="Wi-Fi" source=dhcp
 
 def Change_DNS( standard , network_card, DNS_IP_TUPLE ):
     if (standard == 'ipv4') or (standard == 'ipv6'):
@@ -599,6 +608,12 @@ def add_Custom_DNS():
 
 
 
+def set_to_default_DNS(network_card):
+    network_card_word = '\"' + network_card + '\"'
+    os.system( 'netsh interface ipv4 set dnsservers name=' + network_card_word + " source=dhcp" )
+    os.system( 'netsh interface ipv6 set dnsservers name=' + network_card_word + " source=dhcp" )
+    os.system('ipconfig/flushdns')
+    return
 
 
 
