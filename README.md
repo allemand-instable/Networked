@@ -41,8 +41,8 @@ there are currently 6 tools available :
   - `pip install wmi`
 - [elevate](https://github.com/barneygale/elevate)
   - `pip install elevate`
-- [PyInquirer2](https://github.com/zeusxs/PyInquirer2)
-  - `pip install inquirer2`
+- [PyInquirer2](https://github.com/allemand-instable/PyInquirer2)  ( with windows UI fix )
+  - `pip install inquirer2-windows`
 - [pyfiglet](https://github.com/pwaller/pyfiglet)
   - `pip install pyfiglet`
 - regex
