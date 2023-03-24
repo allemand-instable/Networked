@@ -3,6 +3,9 @@ LIBRAIRIES
 """
 
 from __future__ import print_function, unicode_literals
+from logging import raiseExceptions
+
+import platform
 
 
 #   PRESENTATION
@@ -32,13 +35,13 @@ from elevate import elevate
 Inquirer 2 requirement
 """
 
-import regex
+# import regex
 
 """
 CLI Libraries
 """
 
-from inquirer2 import prompt, Separator
+from InquirerPy import prompt
 from prompt_toolkit.validation import Validator, ValidationError
 from pprint import pprint
 from prompt_toolkit.styles import Style
@@ -99,7 +102,13 @@ DNS_list = [
 ]
 
 
+OPERATING_SYSTEM = platform.system()
 
+OS_LIST = {
+    "apple" : "Darwin",
+    "linux" : "Linux",
+    "windows" : "Windows"
+}
 
 
 """
@@ -562,19 +571,22 @@ FONCTIONS DNS
 
 # netsh interface ip set dnsservers name="Wi-Fi" source=dhcp
 
-def Change_DNS( standard , network_card, DNS_IP_TUPLE ):
+def Change_DNS( standard , network_card, DNS_IP_TUPLE, OS = OPERATING_SYSTEM ):
     if (standard == 'ipv4') or (standard == 'ipv6'):
-
         network_card_word = '\"' + network_card + '\"'
-
         primary_dns = 'static ' + DNS_IP_TUPLE[0]
         secondary_dns = DNS_IP_TUPLE[1]
-
-        os.system('netsh interface ' + standard + ' set dns ' + network_card_word + ' ' + primary_dns)
-        os.system('netsh interface ' + standard + ' add dns ' + network_card_word + ' ' + secondary_dns + ' Index=2')
-        os.system('ipconfig/flushdns')
+        if OS == OS_LIST['windows']:
+            os.system('netsh interface ' + standard + ' set dns ' + network_card_word + ' ' + primary_dns)
+            os.system('netsh interface ' + standard + ' add dns ' + network_card_word + ' ' + secondary_dns + ' Index=2')
+            os.system('ipconfig/flushdns')
+        elif OS == OS_LIST['apple']:
+            os.system("networksetup -setdnsservers Wi-Fi " + primary_dns + " " + secondary_dns)
+            os.system("dscacheutil -flushcache; killall -HUP mDNSResponder")
+            
     else :
         raise Exception('You must set a correct standard :\n \n either :\nipv4\n\nOR\n\nipv6 !')
+       
     return
 
 
@@ -608,11 +620,17 @@ def add_Custom_DNS():
 
 
 
-def set_to_default_DNS(network_card):
-    network_card_word = '\"' + network_card + '\"'
-    os.system( 'netsh interface ipv4 set dnsservers name=' + network_card_word + " source=dhcp" )
-    os.system( 'netsh interface ipv6 set dnsservers name=' + network_card_word + " source=dhcp" )
-    os.system('ipconfig/flushdns')
+def set_to_default_DNS(network_card, OS = OPERATING_SYSTEM):
+    if OS == OS_LIST["windows"] :
+        network_card_word = '\"' + network_card + '\"'
+        os.system( 'netsh interface ipv4 set dnsservers name=' + network_card_word + " source=dhcp" )
+        os.system( 'netsh interface ipv6 set dnsservers name=' + network_card_word + " source=dhcp" )
+        os.system('ipconfig/flushdns')
+    elif OS == OS_LIST["apple"] :
+        command = "networksetup -setdnsservers Wi-Fi \"Empty\""
+        os.system(command)
+    else :
+        raise Exception("OS not Supported")
     return
 
 

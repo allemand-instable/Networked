@@ -1,0 +1,24 @@
+[DNS.default]
+name = "Default"
+ipv4 = false
+ipv6 = false
+
+[DNS.onedot]
+name = "Cloudflare 1.1.1.1"
+ipv4 = ['1.1.1.1', '1.0.0.1'] 
+ipv6 = ['2606:4700:4700::1111', '2606:4700:4700::1001']
+
+[DNS.onedotfamily]
+name = "Cloudflare 1.1.1.1 FAMILY"
+ipv4 = ['1.1.1.3', '1.0.0.3']
+ipv6 = ['2606:4700:4700::1113', '2606:4700:4700::1003']
+
+[DNS.opendns]
+name = "OPEN DNS"
+ipv4 = ['208.67.222.222', '208.67.220.220']
+ipv6 = ['2620:119:35::35', '2620:119:53::53']
+
+[DNS.google]
+name = "Google Public DNS"
+ipv4 = ['8.8.8.8' , '8.8.4.4']
+ipv6 = ['2001:4860:4860::8888' , '2001:4860:4860::8844']
