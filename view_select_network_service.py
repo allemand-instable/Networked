@@ -10,3 +10,9 @@ import InquirerPy.base.simple as ipbs
 from InquirerPy.separator import Separator
 import InquirerPy.utils as ipu
 
+from view_base import BaseView
+
+
+class View_SelectNetworkService(BaseView):
+    def __init__(self, parameters: Parameters) -> None:
+        super().__init__(parameters)

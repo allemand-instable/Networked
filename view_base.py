@@ -16,7 +16,7 @@ from typing import Any
 
 
 class BaseView(metaclass=AbstractClass):
-    
+
     style_dict = {
         "questionmark": "#e5c07b bold",
         "answermark": "#e5c07b bold",
@@ -39,17 +39,20 @@ class BaseView(metaclass=AbstractClass):
         "spinner_pattern": "#e5c07b",
         "spinner_text": "",
     }
-    
+
     style = ipu.get_style(style=style_dict)
-    
-    def __init__(self, parameters : Parameters) -> None:
-        
+
+    def __init__(self, parameters: Parameters) -> None:
+
         self.parameters = parameters
-    
+
     @abstractmethod
     def prompt_user(self):
         pass
+
     @abstractmethod
     def match_prompt_result(self, prompt_result):
         pass
-    
+
+    def run(self):
+        return self.match_prompt_result(self.prompt_user())

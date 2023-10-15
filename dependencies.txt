@@ -1,0 +1,7 @@
+# conda
+tomlkit
+<!-- tomlkit                   0.11.6             pyha770c72_0    conda-forge -->
+inquirerpy
+<!-- inquirerpy                0.3.4              pyhd8ed1ab_0    conda-forge -->
+# pip
+wmi
